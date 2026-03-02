@@ -1,0 +1,55 @@
+int redled = 12;
+int greenled = 13;
+int yellowled = 11;
+int ontime = 1000;
+int offtime = 2000;
+String redmsg = "Red Led is blinking";
+String greenmsg ="green led is blinking";
+String yellowmsg ="yellow led is blinking";
+void setup()
+{
+  pinMode(greenled,OUTPUT);
+  pinMode(redled,OUTPUT);
+  pinMode(yellowled,OUTPUT);
+  Serial.begin(9600);
+}
+void loop(){
+  for(int i=0;i<5;i++)
+  {
+    Serial.print(redmsg);
+    Serial.println(i);
+    digitalWrite(redled,HIGH);//jab ham esa likh rhe hai iska matlab hai ki pin 13th ko ham 5V de rhe hai!!!
+    delay(ontime);
+    digitalWrite(redled,LOW);//13th pin ko 0V de rhe hai!!
+    delay(offtime);
+  }
+  for(int j=0;j<3;j++)
+  {
+    Serial.print(greenmsg);
+    Serial.println(j);
+    digitalWrite(greenled,HIGH);
+    delay(ontime);
+    digitalWrite(greenled,LOW);
+    delay(offtime);
+  }
+  for(int i=0;i<2;i++)
+  {
+    Serial.print(yellowmsg);
+    Serial.println(i);
+    digitalWrite(yellowled,HIGH);
+    delay(ontime);
+    digitalWrite(yellowled,LOW);
+    delay(offtime);
+  }
+}  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
