@@ -1,2 +1,155 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+#define enA 5
+#define in1 6
+#define in2 7
+#define enB 3
+#define in3 2
+#define in4 4
+#include<Servo.h>
+Servo s;
+
+const int trigPin = 11;
+const int echoPin = 12;
+
+float duration, distance;
+
+void setup() {
+  pinMode(trigPin, OUTPUT);
+  pinMode(echoPin, INPUT);
+  pinMode(enA, OUTPUT);
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(enB, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+  digitalWrite(enA,HIGH);
+  digitalWrite(enB,HIGH);
+  s.attach(10);
+ 
+  Serial.begin(9600);
+}
+
+void loop() {
+   s.write(90);
+  delay(2000);
+  int g=d();
+  if(g>30){
+    forward();
+  }
+  else {
+    stops();
+    delay(2000);
+    backward();
+    delay(500);
+    stops();
+    delay(2000);
+   int l=lookleft();
+    delay(1000);
+   int r=lookright();
+    delay(1000);
+    
+    if(l>30&&r<30){
+      	left();
+      	delay(2000);
+    }
+    else if(l<30&&r>30){
+      right();
+      delay(2000);
+    }
+    else if(l>30&&r>30){
+      if(l>r){
+        left();
+        delay(2000);
+      }
+      else {
+        right();
+        delay(2000);
+      }
+    }
+    else{
+      turn();
+      delay(2000);
+    }
+    
+  }
+}
+
+int lookleft(){
+   s.write(45);
+  delay(1000);
+  int ld=d();
+  s.write(90);
+  return ld;
+  
+}
+
+int lookright(){
+   s.write(135);
+  delay(1000);
+  int rd=d();
+  s.write(90);
+  return rd;
+  
+}
+
+
+int d()
+{
+  digitalWrite(trigPin, LOW);
+  delayMicroseconds(2);
+  digitalWrite(trigPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(trigPin, LOW);
+
+  duration = pulseIn(echoPin, HIGH);
+  distance = (duration*.0343)/2;
+  Serial.print("Distance: ");
+  Serial.println(distance);
+  return distance;
+    
+}
+
+
+void forward()
+{
+  digitalWrite(in1,HIGH);
+  digitalWrite(in2,LOW);
+  digitalWrite(in3,HIGH);
+  digitalWrite(in4,LOW);
+}
+
+void stops()
+{
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,LOW);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,LOW);
+}
+
+void backward()
+{
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,HIGH);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,HIGH);
+}
+
+void left()
+{
+  digitalWrite(in1,HIGH);
+  digitalWrite(in2,LOW);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,LOW);
+}
+ 
+void right()
+{
+  digitalWrite(in1,LOW);
+  digitalWrite(in2,LOW);
+  digitalWrite(in3,HIGH);
+  digitalWrite(in4,LOW);
+}
+  void turn(){digitalWrite(in1,HIGH);
+  digitalWrite(in2,LOW);
+  digitalWrite(in3,LOW);
+  digitalWrite(in4,HIGH);
+  }
